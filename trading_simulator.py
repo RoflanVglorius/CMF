@@ -127,13 +127,13 @@ class Strategy:
             iter += 1
 
     def place_ask(self, timestamp, sim: "Sim"):
-        size = random.uniform(0, math.fabs(-self.max_position - self.cur_position))
+        size = random.uniform(0.001, math.fabs(-self.max_position - self.cur_position))
         self.cur_position -= size
         self.active_orders[self.order_cnt] = Order(self.order_cnt, 'ASK', size, self.best_ask, timestamp)
         sim.place_order(Order(self.order_cnt, 'ASK', size, self.best_ask, timestamp))
 
     def place_bid(self, timestamp, sim: "Sim"):
-        size = random.uniform(0, self.max_position - self.cur_position)
+        size = random.uniform(0.001, self.max_position - self.cur_position)
         self.cur_position += size
         self.active_orders[self.order_cnt] = Order(self.order_cnt, 'BID', size, self.best_bid, timestamp)
         sim.place_order(Order(self.order_cnt, 'BID', size, self.best_bid, timestamp))
@@ -235,7 +235,7 @@ class Sim:
             order = self.active_orders[order_id]
             if order.side == 'ASK' and order.price <= self.best_bid or order.side == 'BID' and order.price >= self.best_ask:
                 self.strategy_updates_queue.put(
-                    PrioritizedItem(timestamp + self.md_latency + random.normalvariate(0, 1) * 1e6,
+                    PrioritizedItem(timestamp + self.md_latency,
                                     OwnTrade(timestamp + self.md_latency, self.trade_cnt, order.order_id,
                                              order.side, order.size, order.price)))
                 orders_to_delete.append(order.order_id)
