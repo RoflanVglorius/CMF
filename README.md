@@ -1,3 +1,2 @@
 # CMF
-График PNL:  
-![alt text](https://github.com/RoflanVglorius/CMF/blob/master/PNL.jpg?raw=true)
+Симулятор взят из репозитория: https://github.com/dolmatovas/HFT/tree/main/simulator
