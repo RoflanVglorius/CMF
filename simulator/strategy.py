@@ -83,6 +83,10 @@ class StoikovStrategy:
                 elif isinstance(update, OwnTrade):
                     trades_list.append(update)
                     # delete executed trades from the dict
+                    if update.side == 'ask':
+                        self.cur_pos -= update.size
+                    else:
+                        self.cur_pos += update.size
                     if update.order_id in ongoing_orders.keys():
                         ongoing_orders.pop(update.order_id)
                 else:
